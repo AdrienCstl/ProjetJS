@@ -1,58 +1,75 @@
+
+//Rossero/Castellon
 window.addEventListener("load", function() {
-    var elementPlayer = document.getElementById("divPlayer");
-    var elementInputRSS = document.getElementById("divInputRSS");
-    var sound = document.createElement("audio");
-    sound.id = "audio-player";
+
+  /*get*/
+    var elementPlayer = document.getElementById("divPlayer"); //get divPlayer depuis HTML
+    var elementInputRSS = document.getElementById("divInputRSS"); //get divInputRSS depuis HTML
+
+  /*create*/
+    var sound = document.createElement("audio"); // créer un élément type audi
+    sound.id = "player";
     sound.controls = "controls";
     sound.type = "audio/mpeg";
 
-    var buttonLoadRSS = document.createElement("button");
-    buttonLoadRSS.innerHTML = "Load RSS feed";
+    var buttonLoadRSS = document.createElement("button"); //créer un bouton pour lire le flux
+    buttonLoadRSS.innerHTML = "Load RSS";
     buttonLoadRSS.addEventListener("click", getRSS)
 
-    var inputRSS = document.createElement("input");
+    var inputRSS = document.createElement("input"); //créer un input type text pour entrer le flux rss
     inputRSS.id = "inputRSS";
-    inputRSS.value = "http://feeds.soundcloud.com/users/soundcloud:users:88516325/sounds.rss" //With that we don't have to enter our url everytime
-    elementPlayer.appendChild(sound);
-    elementInputRSS.appendChild(inputRSS);
+    inputRSS.type = "text";
+    inputRSS.value = "http://feeds.soundcloud.com/users/soundcloud:users:88516325/sounds.rss";
+
+    /*Add to document*/
+
+    elementPlayer.appendChild(sound); //ajouter l'audio dans le div du lecteur
+    elementInputRSS.appendChild(inputRSS); // ajouter l'input pour rss dans le div inputRSS
     elementInputRSS.appendChild(buttonLoadRSS);
 
-    function getRSS() { // It could be nice to use a callback function, but it bug when I try to use it whith an event listener
-        var xhr = new XMLHttpRequest();
-        var proxy = "https://crossorigin.me/"; // We need to use a proxy to fix the CORS problem
-        var url = proxy.concat(document.getElementById("inputRSS").value); //We add our proxy just before the RSS url
-        console.log("URL typed in the text input : " + url);
-        xhr.open("GET", url, true);
+
+
+/*Functions*/
+
+  //Récupérer le rss depuis le INPUT
+    function getRSS() {
+        var xhr = new XMLHttpRequest(); //créer un objet xmlrequest
+        var proxy = "https://crossorigin.me/"; // définition d'un proxy
+        var url = proxy.concat(document.getElementById("inputRSS").value); // import du proxy dans l'url sinon on ne peut pas accéder au serveur, AJAX sécurise l'entrée
+      //  console.log("URL typed in the text input : " + url); //vérification console
+        xhr.open("GET", url, true); // accéder à l'url
         xhr.addEventListener('readystatechange', function() {
-            if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status === 0)) {
-                displayListRSS(xhr);
+            if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status === 0)) { //conditions de récupération , si l'opération est complète et status = 0 ou 200 (cas de succes)
+                displayListRSS(xhr);//on appel la fonction d'affichage de la liste des flux
             }
         });
         xhr.send(null);
     }
 
     function displayListRSS(rss) {
-        var doc = rss.responseXML;
 
-        var nodes = doc.getElementsByTagName("item");
+        var doc = rss.responseXML; //récupération du flux complet
+        var nodes = doc.getElementsByTagName("item"); // assossiation d'un noeud (élément rss) à un item du xml
 
-        for (var i = 0, c = nodes.length; i < c; i++) {
-            var tr = document.createElement("tr");
-            var title = nodes[i].getElementsByTagName("title")[0].innerHTML;
+        for (var i = 0, c = nodes.length; i < c; i++) { //pour chaque élément du flux
+            var tr = document.createElement("tr"); //on cré un ligne
+            var title = nodes[i].getElementsByTagName("title")[0].innerHTML; //on défini la  colone 'titre' le titre du flux dans
             var descr = nodes[i].getElementsByTagName("description")[0].innerHTML;
-            var podcastTable = document.getElementById('playlist-table');
-            var tdTitle = document.createElement("td");
-            tdTitle.innerHTML = title;
+            var podcastTable = document.getElementById('playlist-table'); // podcatseTable est le tableau dans le doc
+
+            var tdTitle = document.createElement("td"); //on créer un colone
+            tdTitle.innerHTML = title; //on assossie a la colone title
             var tdDescription = document.createElement("td");
             tdDescription.innerHTML = descr;
 
             var tdLoad = document.createElement("td");
             var btn = document.createElement("button");
             btn.id = "btn" + i;
-            btn.value = nodes[i].getElementsByTagName("enclosure")[0].getAttribute("url");
+            btn.value = nodes[i].getElementsByTagName("enclosure")[0].getAttribute("url"); //on récupere le contenue du noeud
             btn.innerHTML = "Load";
             btn.addEventListener("click", loadAudioFromRSS);
 
+            /*insertion*/
             podcastTable.appendChild(tr);
             tr.appendChild(tdTitle);
             tr.appendChild(tdDescription);
@@ -63,7 +80,7 @@ window.addEventListener("load", function() {
 
     function loadAudioFromRSS() {
         console.log("URL of the mp3 : " + this.value);
-        sound.src = this.value;
+        sound.src = this.value; //on ajoute au lecteur le contenue du noeud
     }
 
 });

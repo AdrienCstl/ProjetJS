@@ -13,7 +13,8 @@ header{
   height: 70px;
  overflow: hidden;
   color: #ffffff;
-    box-shadow: -1px 0px 5px 10px #e5e5e5;
+    box-shadow: 0px 0px 25px 3px #a1a1a1;
+    margin-bottom: 50px;
 }
 header nav, header h1,header nav a {
   display: inline-block;
@@ -35,19 +36,29 @@ header nav a:hover{
   color:#9f9f9f;
 }
 
+footer{
+  background: #f6f6f6;
+  position:fixed;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 0px 15px 1px #afafaf;
+}
 
+/* home-------------------*/
 
 table{
   margin: auto;
+  margin-bottom: 65px;
   width: 55%;
   border-collapse: collapse;
 }
 
 table, th, td {
-    border: 2px solid #cfcfcf;
+    border: 1px solid #cfcfcf;
 }
 
-tr:nth-child(even) {background-color: #fafafa}
+tr:nth-child(even) {background-color: #f5f5f5}
 
 #divPlayer, #divInputRSS{
   text-align: center;
@@ -63,11 +74,31 @@ a{
   text-decoration: none;
 }
 
-footer{
-  background: #f6f6f6;
-  position:fixed;
-  bottom: 0px;
-  width: 100%;
-  text-align: center;
-  box-shadow: -1px 1px 2px 5px #efefef;
+/* doc----------------------------*/
+
+#corpsDoc{
+  width: 55%;
+  margin: auto;
+}
+
+h2{
+  color:#0066FF;
+}
+
+#docP1{
+  background: #fff;
+  box-shadow: 0px 0px 5px 1px #afafaf;
+  border-radius: 5px;
+  margin:auto;
+  margin-top: 20px;
+  padding:10px;
+
+}
+
+p a {
+  text-decoration: none;
+  color:#0066FF;
+}
+p a:hover {
+  color:red;
 }
