@@ -97,8 +97,18 @@ h2{
 
 p a {
   text-decoration: none;
-  color:#0066FF;
+  color:#0066aa;
 }
 p a:hover {
   color:red;
 }
+
+#loadP, input{
+  background: #efefef;
+  border-radius: 2px;
+  border: 1px solid #c1c1c1;
+  line-height: 17.5px;
+  margin-left: 5px;
+}
+input{background: #fff}
+#loadP:hover{background: #e9e9e9;cursor: pointer;}
